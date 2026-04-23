@@ -1,15 +1,4 @@
-import requests
-
-
-def fetch_animals(animal_name):
-    """Fetches a list of animals from the API based on the given name."""
-    api_key = "xH5LWyd1QPVUqSbu45PmXhAawnj5UJPsHPNz7S8S"
-    response = requests.get(
-        "https://api.api-ninjas.com/v1/animals",
-        params={"name": animal_name},
-        headers={"X-Api-Key": api_key}
-    )
-    return response.json()
+import data_fetcher
 
 
 def generate_animal_html(animal):
@@ -44,7 +33,6 @@ def generate_website(animal_name, animals):
     with open("animals_template.html", "r") as f:
         template = f.read()
 
-    # Milestone 3: leeres Ergebnis abfangen
     if len(animals) == 0:
         animals_html = f'<h2>The animal "{animal_name}" doesn\'t exist.</h2>'
     else:
@@ -60,14 +48,9 @@ def generate_website(animal_name, animals):
 
 def main():
     """Main function: asks user for animal name, fetches data, generates website."""
-    # Milestone 2: User-Input
     animal_name = input("Enter a name of an animal: ")
-
-    # Milestone 1: API-Call statt JSON
-    animals = fetch_animals(animal_name)
-
+    animals = data_fetcher.fetch_data(animal_name)
     generate_website(animal_name, animals)
-
     print("Website was successfully generated to the file animals.html.")
 
 
